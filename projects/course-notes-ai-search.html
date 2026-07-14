@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Course Notes AI Search · Yongye Uy Portfolio</title>
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <a class="back" href="../index.html">← Back to all projects</a>
+  <a href="../index.html#featured">home</a>
+  <a href="#architecture">architecture</a>
+  <a href="#highlights">highlights</a>
+  <a href="#demo">demo</a>
+  <a href="#evaluation">evaluation</a>
+  <a href="#limitations">limitations</a>
+</nav>
+
+<header class="hero">
+  <span class="tag">CS382 · Search Engine &amp; Information Retrieval</span>
+  <h1>Course Notes AI Search System</h1>
+  <p class="subtitle">
+    This is a search tool that answers questions using <strong>only</strong> your own
+    course notes, never the AI's general knowledge. It also shows exactly which notes,
+    and which part of your notes, each answer came from.
+  </p>
+  <p class="byline">by <span class="name-placeholder">Yongye Uy</span> · CS382 final project · solo</p>
+  <div class="btn-row">
+    <a class="btn btn-primary" href="https://ye-coursenotesaisearch.streamlit.app/" target="_blank" rel="noopener">Live Demo →</a>
+    <a class="btn btn-secondary" href="https://github.com/Yongye-Uy/Course_Notes_AI_Search" target="_blank" rel="noopener">View on GitHub</a>
+  </div>
+</header>
+
+<section id="overview">
+  <div class="wrap">
+    <h2><span class="kicker">problem &amp; approach</span>Overview</h2>
+    <p class="lede">
+      Course notes pile up fast. Searching through them by hand takes forever, and
+      asking a normal chatbot isn't much better, since it can make things up that
+      sound convincing but aren't actually in your notes. This project answers your
+      questions using only text pulled from your own notes, and it shows you exactly
+      which part of which note each answer came from. If it can't find anything
+      relevant, it says so instead of guessing.
+    </p>
+    <div class="grid grid-3">
+      <div class="card">
+        <h3>Grounded, not made up</h3>
+        <p>Every answer comes from your notes, not the AI's own knowledge. If your notes don't cover a question, it tells you instead of guessing.</p>
+      </div>
+      <div class="card">
+        <h3>Cited by design</h3>
+        <p>You can check where every answer comes from. It points to the exact file and section, not just a vague "based on your notes."</p>
+      </div>
+      <div class="card">
+        <h3>No extra setup needed</h3>
+        <p>There's no database and no Docker involved. Everything is stored in plain files, so the whole app can run on a free hosting plan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="soft" id="architecture">
+  <div class="wrap">
+    <h2><span class="kicker">system design · six steps, in order</span>Architecture</h2>
+    <p class="lede">Here's how a note file turns into an answer on screen. Each step depends on the one before it, so they always run in this order.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <div class="content">
+          <h4>Ingest &amp; Chunk</h4>
+          <p><code>ingestion/loader.py</code> and <code>ingestion/chunker.py</code> find every <code>.md</code> file in your notes folder. They split each file by its real headings first, then break the text into smaller overlapping chunks so nothing gets cut off awkwardly.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div class="content">
+          <h4>Embed</h4>
+          <p><code>embeddings/encoder.py</code> turns each chunk of text into a vector (a list of numbers) using a sentence-transformers model. This is what lets the app compare meaning, not just matching words.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div class="content">
+          <h4>Vector Store</h4>
+          <p><code>vectorstore/store.py</code> saves those vectors in a FAISS index, plus two small JSON files that keep track of the chunk details and when the index was last built. No database needed.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <div class="content">
+          <h4>Retrieve</h4>
+          <p><code>retrieval/search.py</code> searches for the closest matching chunks to your question. If your question actually has two parts, it splits them and searches separately, then combines the results.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">5</div>
+        <div class="content">
+          <h4>Generate</h4>
+          <p><code>generation/prompt.py</code> and <code>generation/client.py</code> send the matched notes to an LLM (hosted by NVIDIA) and ask it to answer using only that text, with citations. The prompt also tells it to ignore any instructions hidden inside a question.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">6</div>
+        <div class="content">
+          <h4>Interface</h4>
+          <p><code>app.py</code> is the Streamlit page you actually see: a search box, the answer, cards showing each source with a citation badge, some settings, and a tab for running test questions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="highlights">
+  <div class="wrap">
+    <h2><span class="kicker">beyond the happy path</span>Technical Highlights</h2>
+    <p class="lede">Four decisions I made along the way, and why I made them, not just what the code does.</p>
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>No database, on purpose</h3>
+        <p>FAISS only stores the vectors themselves, not the actual text or filenames. So this project saves that extra information as plain JSON files next to the index instead of using a database. I actually started with Postgres and Docker, but switched to this simpler setup so the app could run on a free hosting plan without needing anything extra installed.</p>
+      </div>
+      <div class="card">
+        <h3>Handling questions with two parts</h3>
+        <p>If you ask something like "What is AI? And what is BM-25?", the app used to lean toward one topic and miss the other completely. I found this while testing: that exact question returned zero results about BM-25. Now the app splits questions on the question mark, searches each part on its own, and combines the results. Normal single questions, even ones with the word "and" in them, aren't affected.</p>
+      </div>
+      <div class="card">
+        <h3>Trying to stop people from tricking it</h3>
+        <p>One of the course topics is actually about breaking chatbots like this one, so I treated it as a real risk, not just a theory. The system prompt treats whatever the user types as text to answer, not as new instructions. I tested it with a few tricks, like telling it to ignore its rules or reveal its system prompt, and it refused all of them. It even handled a mixed case where half the question was real and the other half was trying to trick it, answering the real part and ignoring the rest.</p>
+      </div>
+      <div class="card">
+        <h3>Fixing messy citation formatting</h3>
+        <p>The AI model doesn't always format citations the same way. Sometimes it writes <code>[Source 1]</code> normally, sometimes it uses different brackets like <code>【Source 1】</code>, and sometimes there's a strange invisible character in the spacing. I noticed this while testing the same question multiple times, so I updated the code that reads citations to accept all these variations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="soft">
+  <div class="wrap">
+    <h2><span class="kicker">built with</span>Tech Stack</h2>
+    <div class="chips">
+      <span class="chip">python</span>
+      <span class="chip">streamlit</span>
+      <span class="chip">faiss</span>
+      <span class="chip">sentence-transformers</span>
+      <span class="chip">nvidia llm api (openai-compatible)</span>
+      <span class="chip">python-dotenv</span>
+    </div>
+  </div>
+</section>
+
+<section id="demo">
+  <div class="wrap">
+    <h2><span class="kicker">try it yourself</span>Live Demo</h2>
+    <p class="lede">You can try the app right now in your browser. No installation needed.</p>
+    <div class="card" style="text-align:center; padding: 2rem;">
+      <h3 style="margin-bottom:0.75rem;">Course Notes AI Search · Live App</h3>
+      <a class="btn btn-primary" href="https://ye-coursenotesaisearch.streamlit.app/" target="_blank" rel="noopener">Open Live Demo →</a>
+    </div>
+    <div style="height:1.25rem;"></div>
+    <img class="screenshot" src="../screenshot-search.png" alt="Course Notes AI Search app, showing the Search tab with a question, a generated answer with inline citations, and a cited source card." />
+  </div>
+</section>
+
+<section class="soft" id="evaluation">
+  <div class="wrap">
+    <h2><span class="kicker">does it work?</span>Evaluation Results</h2>
+    <p class="lede">
+      I ran 9 fixed test questions through the same search-and-answer pipeline used in
+      the Search tab. This was tested against the live dataset: 30 files and 656
+      chunks, using the <code>all-MiniLM-L6-v2</code> model.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>#</th><th>Question</th><th>Top similarity</th><th>Result</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>What is PageRank and how does it work?</td><td class="score">0.835</td><td><span class="status status-good">correct</span><br>Grounded answer with inline citations.</td></tr>
+          <tr><td>2</td><td>What is <span style="white-space:nowrap">Retrieval-Augmented</span> Generation (RAG)?</td><td class="score">0.557</td><td><span class="status status-good">correct</span><br>Grounded, cites the RAG Architecture notes.</td></tr>
+          <tr><td>3</td><td>How do you evaluate an information retrieval system?</td><td class="score">0.587</td><td><span class="status status-good">correct</span><br>Grounded in the IR Evaluation notes.</td></tr>
+          <tr><td>4</td><td>What is a vector database and how is it used in Neural IR?</td><td class="score">0.626</td><td><span class="status status-good">correct</span><br>Grounded in the Neural IR notes.</td></tr>
+          <tr><td>5</td><td>Explain <span style="white-space:nowrap">content-based</span> filtering in recommender systems.</td><td class="score">0.609</td><td><span class="status status-good">correct</span><br>Grounded in the Recommender Systems notes.</td></tr>
+          <tr><td>6</td><td>What are the key stages of web crawling?</td><td class="score">0.636</td><td><span class="status status-good">correct</span><br>Grounded in the Web Crawling notes.</td></tr>
+          <tr><td>7</td><td>What ethical issues arise in information retrieval systems?</td><td class="score">0.539</td><td><span class="status status-good">correct</span><br>Grounded in the Ethics in AI notes.</td></tr>
+          <tr><td>8</td><td>What is the capital of France? <em>(deliberately <span style="white-space:nowrap">off-topic</span>)</em></td><td class="score">0.274</td><td><span class="status status-warn">correctly refused</span><br>Caught by the grounding rule, not just because retrieval came back empty.</td></tr>
+          <tr><td>9</td><td>What is AI? And what is BM-25? <em>(compound, two topics)</em></td><td class="score">0.796 / 0.541</td><td><span class="status status-good">correct</span><br>Both halves answered and cited correctly. This is the test case for the two-part question fix above.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lede" style="margin-top:1.5rem;">
+      Questions related to the notes scored between <span style="white-space:nowrap">0.54 and 0.84</span> for their
+      best match. The question that was meant to be off-topic only scored 0.27. That's
+      a clear gap, which means the similarity score is a good signal for whether the
+      notes actually cover a question. This held up even after I grew the dataset
+      partway through the project, from 14 files to 30 files (245 to 656 chunks)
+      across two different courses.
+    </p>
+  </div>
+</section>
+
+<section id="limitations">
+  <div class="wrap">
+    <h2><span class="kicker">honest assessment</span>Known Limitations</h2>
+    <ul class="clean">
+      <li>Most of my notes came from PDF or PowerPoint slides, so they don't have real Markdown headings. Because of that, most chunks come from the plain paragraph-splitting method, not the heading-based one.</li>
+      <li>Since those notes came from slides, some chunks have OCR mistakes or tables that got squashed into a messy format.</li>
+      <li>You can only pick from a short list of embedding models in the dropdown. I didn't allow free text entry, to avoid errors from typing an invalid model name.</li>
+      <li>The app decides when to refuse an answer based on the AI's judgment, not a fixed similarity number. A stricter version might add a hard cutoff as a backup.</li>
+      <li>Since there's no database, evaluation results and your session disappear if you refresh the page. I accepted this tradeoff to keep the app simple and easy to deploy.</li>
+      <li>The question splitter only works if there's a question mark between the two parts. A compound question without a second question mark can still run into the same problem it's meant to fix.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <p>Course Notes AI Search System · CS382 Final Project</p>
+  <p><span class="name-placeholder">Yongye Uy</span></p>
+  <div class="btn-row">
+    <a class="btn btn-primary" href="https://ye-coursenotesaisearch.streamlit.app/" target="_blank" rel="noopener">Live Demo</a>
+    <a class="btn btn-secondary" href="https://github.com/Yongye-Uy/Course_Notes_AI_Search" target="_blank" rel="noopener">GitHub Repo</a>
+  </div>
+  <div class="btn-row">
+    <a class="btn btn-secondary" href="../index.html">← Back to all projects</a>
+  </div>
+  <p>Built with Python, Streamlit, FAISS, and sentence-transformers.</p>
+</footer>
+
+</body>
+</html>

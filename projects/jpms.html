@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JPMS · Yongye Uy Portfolio</title>
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <a class="back" href="../index.html">← Back to all projects</a>
+  <a href="../index.html#featured">home</a>
+</nav>
+
+<header class="hero">
+  <span class="tag">CS394</span>
+  <h1>JPMS</h1>
+  <p class="subtitle">
+    Journal Publication Management System — a system for running an academic
+    journal from start to finish: authors submit papers, reviewers review
+    them, editors make decisions, and accepted papers get published.
+  </p>
+  <p class="byline">by <span class="name-placeholder">Yongye Uy</span> · CS394 group project</p>
+  <div class="btn-row">
+    <span class="btn btn-disabled">GitHub repo coming soon</span>
+  </div>
+</header>
+
+<section id="overview">
+  <div class="wrap">
+    <h2><span class="kicker">what it does</span>Overview</h2>
+    <p class="lede">
+      Running a journal by hand (emails, spreadsheets, shared folders) gets
+      messy fast. This project builds one place where everyone involved —
+      authors, reviewers, editors, and admins — can do their part of the
+      process: submit a paper, review it, decide on it, and eventually
+      publish it.
+    </p>
+    <div class="grid grid-3">
+      <div class="card">
+        <h3>Submit &amp; review</h3>
+        <p>Authors submit papers and upload files. Reviewers read them and leave feedback and scores.</p>
+      </div>
+      <div class="card">
+        <h3>Editorial decisions</h3>
+        <p>Editors look at the reviews and decide whether a paper gets accepted, needs changes, or is rejected.</p>
+      </div>
+      <div class="card">
+        <h3>Publish</h3>
+        <p>Accepted papers get grouped into issues and shown on a public page anyone can browse.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="soft">
+  <div class="wrap">
+    <div class="role-callout">
+      <p><strong>My role: Frontend.</strong> I worked on the pages for submitting papers, tracking reviews, and viewing manuscript files, matching a design our team had already planned out and gotten approved.</p>
+    </div>
+  </div>
+</section>
+
+<section id="tech">
+  <div class="wrap">
+    <h2><span class="kicker">built with</span>Tech Stack</h2>
+    <div class="chips">
+      <span class="chip">Laravel</span>
+      <span class="chip">Livewire</span>
+      <span class="chip">PostgreSQL</span>
+      <span class="chip">MongoDB</span>
+      <span class="chip">Docker</span>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <h2><span class="kicker">who can do what</span>Roles &amp; Features</h2>
+    <ul class="clean">
+      <li><strong>Author:</strong> submit a manuscript, upload new versions, invite co-authors.</li>
+      <li><strong>Reviewer:</strong> get invited to review a manuscript, read the PDF, leave feedback and a score.</li>
+      <li><strong>Editor:</strong> see all reviews for a manuscript and make the final decision.</li>
+      <li><strong>Admin:</strong> manage journals, issues, and users across the whole system.</li>
+      <li>A PDF viewer built into the page, so anyone with access can read a manuscript without downloading it first.</li>
+      <li>Published articles show up automatically on a public listing page, grouped by journal issue.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <p>JPMS · CS394 Group Project</p>
+  <p><span class="name-placeholder">Yongye Uy</span> · Frontend</p>
+  <div class="btn-row">
+    <a class="btn btn-secondary" href="../index.html">← Back to all projects</a>
+  </div>
+</footer>
+
+</body>
+</html>

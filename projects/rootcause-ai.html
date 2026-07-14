@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RootCause AI · Yongye Uy Portfolio</title>
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <a class="back" href="../index.html">← Back to all projects</a>
+  <a href="../index.html#featured">home</a>
+</nav>
+
+<header class="hero">
+  <span class="tag">CS342 · Most Recent &amp; Strongest</span>
+  <h1>RootCause AI</h1>
+  <p class="subtitle">
+    An AI tool that helps you figure out the root cause of a problem and
+    explains it back to you through a chat, instead of just giving you a
+    one-line answer.
+  </p>
+  <p class="byline">by <span class="name-placeholder">Yongye Uy</span> · personal project</p>
+  <div class="btn-row">
+    <a class="btn btn-primary" href="https://frontend-rootcasue-ai.vercel.app" target="_blank" rel="noopener">Live Demo →</a>
+    <a class="btn btn-secondary" href="https://github.com/Yongye-Uy/Frontend-rootcasue-ai.git" target="_blank" rel="noopener">Frontend Repo</a>
+    <a class="btn btn-secondary" href="https://github.com/Yongye-Uy/Backend-rootcause-ai.git" target="_blank" rel="noopener">Backend Repo</a>
+  </div>
+</header>
+
+<section id="overview">
+  <div class="wrap">
+    <h2><span class="kicker">what it does</span>Overview</h2>
+    <p class="lede">
+      When something breaks, it's easy to fix the symptom without ever
+      finding out why it actually happened. RootCause AI takes a problem you
+      describe, uses AI to dig into what's really causing it, and lets you
+      keep chatting with it to ask follow-up questions until it makes sense.
+      This is my most recent project and the one I'm most proud of, since it
+      involved building and deploying a real full-stack app, not just a
+      script.
+    </p>
+    <div class="grid grid-3">
+      <div class="card">
+        <h3>AI-powered analysis</h3>
+        <p>Describe a problem and get back an explanation of what's really causing it.</p>
+      </div>
+      <div class="card">
+        <h3>Chat, not just one answer</h3>
+        <p>You can keep asking follow-up questions and the AI keeps explaining.</p>
+      </div>
+      <div class="card">
+        <h3>Deployed for real</h3>
+        <p>Live on the internet, with a real backend API and a working health check.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="soft" id="tech">
+  <div class="wrap">
+    <h2><span class="kicker">built with</span>Tech Stack</h2>
+    <div class="chips">
+      <span class="chip">React</span>
+      <span class="chip">Vercel</span>
+      <span class="chip">Backend API</span>
+      <span class="chip">OpenRouter / NVIDIA / OpenAI-style AI APIs</span>
+      <span class="chip">Neon PostgreSQL</span>
+      <span class="chip">GitHub</span>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <h2><span class="kicker">what's built</span>Key Features</h2>
+    <ul class="clean">
+      <li>AI-powered root cause analysis — you describe a problem and the AI breaks down what's likely causing it.</li>
+      <li>A chat-style interface so you can keep asking questions and get more explanation.</li>
+      <li>A backend API that talks to the AI service and handles requests from the frontend.</li>
+      <li>A health check endpoint so I can tell if the backend is actually running.</li>
+      <li>Login system (depending on the current version being worked on).</li>
+      <li>Deployed to the cloud so anyone can try it, not just run it locally.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="soft" id="challenges">
+  <div class="wrap">
+    <h2><span class="kicker">not as easy as it sounds</span>Interesting Challenges</h2>
+    <p class="lede">Getting this project actually running online taught me a lot about real-world deployment, not just writing code that works on my own computer.</p>
+    <ul class="clean">
+      <li><strong>The free server kept falling asleep.</strong> Hosting the backend on a free tier (Render) meant it would go to sleep after being idle, making the first request after a while very slow.</li>
+      <li><strong>Keeping it awake with a cron job.</strong> I set up a scheduled job that pings the backend regularly so it doesn't fall asleep on real users.</li>
+      <li><strong>Moving the backend.</strong> I had to migrate the backend at one point, which meant carefully checking that nothing broke along the way.</li>
+      <li><strong>Choosing a database.</strong> I was weighing Neon PostgreSQL against a simple SQLite file, thinking about what would actually work once the app was deployed rather than running locally.</li>
+      <li><strong>Serverless architecture.</strong> Learning how a backend behaves when it's not just "always running" like on my own machine.</li>
+      <li><strong>Getting Vercel deployment right.</strong> Making sure the frontend build and environment settings actually worked in production, not just in local testing.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <p>RootCause AI · Personal Project</p>
+  <p><span class="name-placeholder">Yongye Uy</span></p>
+  <div class="btn-row">
+    <a class="btn btn-primary" href="https://frontend-rootcasue-ai.vercel.app" target="_blank" rel="noopener">Live Demo</a>
+    <a class="btn btn-secondary" href="https://github.com/Yongye-Uy/Frontend-rootcasue-ai.git" target="_blank" rel="noopener">Frontend Repo</a>
+    <a class="btn btn-secondary" href="https://github.com/Yongye-Uy/Backend-rootcause-ai.git" target="_blank" rel="noopener">Backend Repo</a>
+  </div>
+  <div class="btn-row">
+    <a class="btn btn-secondary" href="../index.html">← Back to all projects</a>
+  </div>
+</footer>
+
+</body>
+</html>

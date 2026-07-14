@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EPPLMS · Yongye Uy Portfolio</title>
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <a class="back" href="../index.html">← Back to all projects</a>
+  <a href="../index.html#featured">home</a>
+</nav>
+
+<header class="hero">
+  <span class="tag">CS394 · Biggest Project</span>
+  <h1>EPPLMS</h1>
+  <p class="subtitle">
+    A learning management system built for a real school (Paragon
+    International University). It handles students, lecturers, courses,
+    classes, and a flexible system for deciding what each type of user is
+    allowed to do.
+  </p>
+  <p class="byline">by <span class="name-placeholder">Yongye Uy</span> · CS394 group project</p>
+  <div class="btn-row">
+    <span class="btn btn-disabled">Code is private (real school system)</span>
+  </div>
+</header>
+
+<section id="overview">
+  <div class="wrap">
+    <h2><span class="kicker">what it does</span>Overview</h2>
+    <p class="lede">
+      The school needed its own system to manage students, lecturers,
+      courses, semesters, and classes, matching how the school is actually
+      organized (batches, generations, semesters, programs). This is the
+      biggest project I've worked on, built by a team, and it's a real
+      system that gets used by a real school.
+    </p>
+    <div class="grid grid-3">
+      <div class="card">
+        <h3>Manage people</h3>
+        <p>Invite users, give them roles, reset passwords, turn accounts on or off.</p>
+      </div>
+      <div class="card">
+        <h3>Manage courses</h3>
+        <p>Set up programs, courses, semesters, batches, and classes.</p>
+      </div>
+      <div class="card">
+        <h3>Flexible permissions</h3>
+        <p>A system that decides exactly what each type of user is allowed to see and do, and can be changed without touching the code.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="role-callout-wrap soft">
+  <div class="wrap">
+    <div class="role-callout">
+      <p><strong>My role: Frontend.</strong> I worked on the pages users actually see and click through — building the screens for managing users, courses, classes, and the roles-and-permissions settings, and making sure they talked correctly to the backend.</p>
+    </div>
+  </div>
+</section>
+
+<section id="tech">
+  <div class="wrap">
+    <h2><span class="kicker">This project built with</span>Tech Stack</h2>
+    <div class="chips">
+      <span class="chip">Next.js (TypeScript)</span>
+      <span class="chip">Tailwind CSS</span>
+      <span class="chip">Go (backend services)</span>
+      <span class="chip">PostgreSQL</span>
+      <span class="chip">JWT login</span>
+      <span class="chip">Google oAuth</span>
+      <span class="chip">Google SMTP</span>
+      <span class="chip">RabbitMQ</span>
+      <span class="chip">Redis</span>
+      <span class="chip">FastAPI</span>
+      <span class="chip">Cloudflare R2</span>
+      <span class="chip">OpenSearch Traces</span>
+      <span class="chip">Loki Logs</span>
+      <span class="chip">Prometheus Metrics</span>
+      <span class="chip">OTel Collector</span>
+      <span class="chip">Kong Gateway</span>
+      <span class="chip">Socket IO</span>
+      <span class="chip">OPA</span>
+    </div>
+  </div>
+</section>
+
+<section class="soft" id="features">
+  <div class="wrap">
+    <h2><span class="kicker">what's built so far</span>Key Features</h2>
+    <ul class="clean">
+      <li>Login with email/password or Google, with secure sessions.</li>
+      <li>Invite new users, assign roles, reset passwords, and turn accounts on or off.</li>
+      <li>Manage programs, courses, semesters, batches, and classes.</li>
+      <li>A roles-and-permissions system where each permission can be turned on or off per role, instead of roles being hardcoded in the code.</li>
+      <li>Different dashboards depending on whether you're a Super Admin, Director, Lecturer, or Student.</li>
+      <li>Lecturers can see their classes, students, and courses, and can manage their own classes.</li>
+      <li>Students can see their classes, courses, and lecturers.</li>
+      <li>Director can see all users, batches, courses, and classes, and can manage them.</li>
+      <li>Admins can see logs of all actions taken by users, and can see metrics of how many users are using the system and what they're doing.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <p>EPPLMS · CS394 Group Project</p>
+  <p><span class="name-placeholder">Yongye Uy</span> · Frontend</p>
+  <div class="btn-row">
+    <a class="btn btn-secondary" href="../index.html">← Back to all projects</a>
+  </div>
+</footer>
+
+</body>
+</html>
