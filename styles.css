@@ -332,6 +332,172 @@ td.score { white-space: nowrap; font-family: var(--font-mono); font-variant-nume
 ul.clean { padding-left: 1.15rem; color: var(--muted); }
 ul.clean li { margin-bottom: 0.5rem; }
 
+/* --- Stats grid (About) --- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin: 1.75rem 0 0;
+}
+@media (max-width: 720px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 1.1rem 1rem;
+  text-align: center;
+}
+.stat .stat-num {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.stat .stat-label {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+/* --- Education callout tweaks (multi-paragraph reuse of role-callout) --- */
+.role-callout h3 { margin: 0 0 0.5rem; font-size: 1.05rem; }
+.role-callout p + p { margin-top: 0.5rem; }
+
+/* --- Hero motion --- */
+header.hero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+header.hero::before,
+header.hero::after {
+  content: "";
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.22;
+  z-index: -1;
+  animation: float-blob 16s ease-in-out infinite;
+  pointer-events: none;
+}
+header.hero::before {
+  background: var(--accent);
+  top: -200px;
+  left: -140px;
+}
+header.hero::after {
+  background: var(--good);
+  bottom: -220px;
+  right: -160px;
+  animation-delay: -8s;
+}
+@keyframes float-blob {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(50px, 30px) scale(1.12); }
+}
+
+/* --- Scroll reveal --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* --- Nav active state + animated underline --- */
+nav.topnav a {
+  position: relative;
+  padding-bottom: 3px;
+}
+nav.topnav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.25s ease;
+}
+nav.topnav a:hover::after,
+nav.topnav a.active::after { width: 100%; }
+nav.topnav a.active { color: var(--accent); }
+
+/* --- Scroll progress bar --- */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: var(--accent);
+  z-index: 50;
+  transition: width 0.1s ease-out;
+}
+
+/* --- Back to top button --- */
+#back-to-top {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 50%;
+  background: var(--accent-strong);
+  color: #fff;
+  border: none;
+  font-size: 1.15rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s, background 0.2s ease;
+  z-index: 40;
+  box-shadow: var(--shadow-card);
+}
+#back-to-top.visible { opacity: 1; visibility: visible; transform: none; }
+#back-to-top:hover { background: var(--accent-strong-hover); }
+
+/* --- Hover polish --- */
+.project-card, .card, .step, .llo-card, .role-callout, .stat {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.project-card:hover, .card:hover, .stat:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.38);
+}
+.btn { transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease; }
+.btn:hover { transform: translateY(-2px); }
+.chip { transition: transform 0.2s ease, border-color 0.2s ease; }
+.chip:hover { border-color: var(--accent); transform: translateY(-1px); }
+
+/* --- Reduced motion overrides --- */
+@media (prefers-reduced-motion: reduce) {
+  header.hero::before, header.hero::after { animation: none; }
+  .reveal { transition: none; opacity: 1; transform: none; }
+  .project-card, .card, .step, .llo-card, .role-callout, .stat, .btn, .chip, #back-to-top {
+    transition: none;
+  }
+}
+
 /* --- Footer --- */
 footer {
   padding: 3rem 1.5rem;
