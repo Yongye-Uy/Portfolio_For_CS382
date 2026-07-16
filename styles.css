@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
 :root {
   --bg: #0A0B0F;
   --bg-soft: #15171E;
@@ -14,8 +16,8 @@
   --warn: #FDE047;
   --warn-soft: #3A2E06;
 
-  --font-display: Calibri, Candara, "Segoe UI", Optima, Arial, sans-serif;
-  --font-body: Calibri, Candara, "Segoe UI", Optima, Arial, sans-serif;
+  --font-display: 'Inter', Calibri, Candara, "Segoe UI", Optima, Arial, sans-serif;
+  --font-body: 'Inter', Calibri, Candara, "Segoe UI", Optima, Arial, sans-serif;
   --font-mono: ui-monospace, "Cascadia Code", "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
 
   --radius-sm: 6px;
